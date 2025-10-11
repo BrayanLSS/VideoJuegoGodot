@@ -1,0 +1,160 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Town.tscn" type="PackedScene" id=1]
+[ext_resource path="res://SceneManager.gd" type="Script" id=2]
+[ext_resource path="res://Menu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Player/Male_Spritesheet.png" type="Texture" id=4]
+[ext_resource path="res://Menu_pause.gd" type="Script" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeToBlack"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_fading"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "FadeToNormal"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.133333, 0.133333, 0.133333, 0.611765 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.752941, 1, 0.533333, 0.533333 )
+border_color = Color( 0.752941, 1, 1, 0.533333 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0.333333, 0.666667, 1 )
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 1, 0.13, 0.67 )
+draw_center = false
+border_color = Color( 1, 1, 0.333333, 1 )
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+
+[node name="SceneManager" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="CurrentScene" type="Node2D" parent="."]
+
+[node name="Town" parent="CurrentScene" instance=ExtResource( 1 )]
+position = Vector2( -17, 23 )
+
+[node name="MaleSpritesheet" type="Sprite" parent="CurrentScene/Town"]
+position = Vector2( 380, 645 )
+texture = ExtResource( 4 )
+
+[node name="Menu" parent="." instance=ExtResource( 3 )]
+
+[node name="ScreenTransition" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ScreenTransition"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -45.0
+margin_top = 245.0
+margin_right = -45.0
+margin_bottom = 245.0
+color = Color( 0, 0, 0, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenTransition"]
+anims/FadeToBlack = SubResource( 1 )
+anims/FadeToNormal = SubResource( 2 )
+
+[node name="Menu_pause" type="CanvasLayer" parent="."]
+pause_mode = 2
+script = ExtResource( 5 )
+
+[node name="Panel" type="Panel" parent="Menu_pause"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_top = 13.0
+margin_right = -18.0
+margin_bottom = 13.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu_pause/Panel"]
+pause_mode = 2
+margin_left = 34.0
+margin_top = 40.0
+margin_right = 213.0
+margin_bottom = 110.0
+alignment = 1
+
+[node name="ResumeButton" type="MenuButton" parent="Menu_pause/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 10.0
+margin_right = 179.0
+margin_bottom = 24.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+text = "Resumen"
+
+[node name="MainMenuButton" type="MenuButton" parent="Menu_pause/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 28.0
+margin_right = 179.0
+margin_bottom = 42.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+text = "Menu principal"
+
+[node name="QuitButton" type="MenuButton" parent="Menu_pause/Panel/VBoxContainer"]
+pause_mode = 2
+margin_top = 46.0
+margin_right = 179.0
+margin_bottom = 60.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+text = "Quit"
+
+[connection signal="pressed" from="Menu_pause/Panel/VBoxContainer/ResumeButton" to="Menu_pause" method="_on_ResumeButton_pressed"]
+[connection signal="pressed" from="Menu_pause/Panel/VBoxContainer/MainMenuButton" to="Menu_pause" method="_on_MainMenuButton_pressed"]
+[connection signal="pressed" from="Menu_pause/Panel/VBoxContainer/QuitButton" to="Menu_pause" method="_on_QuitButton_pressed"]
