@@ -21,14 +21,17 @@ func player_exiting_grass():
 	
 func player_in_grass():
 	if player_inside == true:
+		var player = Utils.get_player()
 		var grass_step_effect = GrassStepEffect.instance()
-		grass_step_effect.position = position
+		grass_step_effect.global_position = player.global_position
 		get_tree().current_scene.add_child(grass_step_effect)
 		
 		
 		grass_overlay = TextureRect.new()
 		grass_overlay.texture = grass_overlay_texture
-		grass_overlay.rect_position = position
+		var overlay_size = grass_overlay.texture.get_size()
+		grass_overlay.rect_global_position = player.global_position - overlay_size / 2
+		#grass_overlay.rect_global_position = player.global_position
 		get_tree().current_scene.add_child(grass_overlay)
 
 

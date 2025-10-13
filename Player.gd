@@ -8,7 +8,7 @@ signal player_entered_door_signal
 
 const LandingDustEffect = preload("res://LandingDustEffect.tscn")
 
-export var walk_speed = 4.0
+export var walk_speed = 10.0
 export var jump_speed = 4.0
 const TILE_SIZE = 16
 
@@ -50,6 +50,9 @@ func set_spawn(location: Vector2, direction: Vector2):
 		position = location
 	
 func _physics_process(delta):
+	if not anim_tree.active:
+		return
+	
 	if player_state == PlayerState.TURNING or stop_input:
 		return
 	elif is_moving == false:

@@ -1,5 +1,12 @@
 extends Node2D
 
+const TransitionLayer = preload("res://TransitionLayer.tscn")
+
+var next_scene_path = null
+var player_spawn_location = Vector2.ZERO
+var player_spawn_direction = Vector2.ZERO
+var current_transition_layer = null
+
 var next_scene = null
 
 var player_location = Vector2(0, 0)
@@ -21,21 +28,37 @@ func transition_exit_party_screen():
 	transition_type = TransitionType.MENU_ONLY
 
 
-func transition_to_scene(new_scene: String, spawn_location, spawn_direction):
-	next_scene = new_scene
-	player_location = spawn_location
-	player_direction = spawn_direction
-	transition_type = TransitionType.NEW_SCENE
-	$ScreenTransition/AnimationPlayer.play("FadeToBlack")
+func transition_to_scene(new_path: String, spawn_location: Vector2, spawn_direction: Vector2):
+	if current_transition_layer != null:
+		return
+
+	next_scene_path = new_path
+	player_spawn_location = spawn_location
+	player_spawn_direction = spawn_direction
+
+	current_transition_layer = TransitionLayer.instance()
+	current_transition_layer.connect("fade_out_finished", self, "_on_fade_out_finished")
+	add_child(current_transition_layer)
+	current_transition_layer.fade_out()
+
+func _on_fade_out_finished():
+	if $CurrentScene.get_child_count() > 0:
+		$CurrentScene.get_child(0).queue_free()
+
+	var new_scene = load(next_scene_path).instance()
+	$CurrentScene.add_child(new_scene)
+
+	var player = Utils.get_player()
+	if player != null:
+		player.set_spawn(player_spawn_location, player_spawn_direction)
+	
+	if current_transition_layer != null:
+		current_transition_layer.fade_in()
+	
+	current_transition_layer = null
 	
 func finished_fading():
 	match transition_type:
-		TransitionType.NEW_SCENE:
-			$CurrentScene.get_child(0).queue_free()
-			$CurrentScene.add_child(load(next_scene).instance())
-			
-			var player = Utils.get_player()
-			player.set_spawn(player_location, player_direction)
 		TransitionType.PARTY_SCREEN:
 			$Menu.load_party_screen()
 		TransitionType.MENU_ONLY:
