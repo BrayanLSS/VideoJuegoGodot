@@ -16,21 +16,6 @@ func _ready():
 	if is_invisible:
 		$Sprite.texture = null
 	sprite.visible = false
-	var player = Utils.get_player()
-	player.connect("player_entering_door_signal", self, "enter_door")
-	player.connect("player_entered_door_signal", self, "close_door")
-	
-func enter_door():
-	if player_entered:
-		anim_player.play("OpenDoor")
-	
-func close_door():
-	if player_entered:
-		anim_player.play("CloseDoor")
-
-func door_closed():
-	if player_entered:
-		Utils.get_scene_manager().transition_to_scene(next_scene_path, spawn_location, spawn_direction)
 
 
 func _on_Door_body_entered(body):
@@ -39,3 +24,6 @@ func _on_Door_body_entered(body):
 
 func _on_Door_body_exited(body):
 	player_entered = false
+
+func open_door_animation():
+	anim_player.play("OpenDoor")

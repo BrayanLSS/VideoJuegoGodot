@@ -1,44 +1,23 @@
 extends Node2D
 
-var next_scene = null
+# Este script ahora solo gestiona las animaciones de transición.
+# El cambio de escena real lo hace Godot con get_tree().change_scene().
 
-var player_location = Vector2(0, 0)
-var player_direction = Vector2(0, 0)
+onready var animation_player = $ScreenTransition/AnimationPlayer
+var next_scene_path = ""
 
-enum TransitionType { NEW_SCENE, PARTY_SCREEN, MENU_ONLY }
-var transition_type = TransitionType.NEW_SCENE
+func transition_to_scene(path: String):
+	# Guarda la ruta de la próxima escena y empieza la animación de salida.
+	next_scene_path = path
+	animation_player.play("FadeToBlack")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func _on_fade_out_finished():
+	# Esta función es llamada por la propia animación "FadeToBlack".
+	# Una vez que la pantalla está en negro, cambiamos la escena.
+	if next_scene_path != "":
+		get_tree().change_scene(next_scene_path)
 
-func transition_to_party_screen():
-	$ScreenTransition/AnimationPlayer.play("FadeToBlack")
-	transition_type = TransitionType.PARTY_SCREEN
-	
-func transition_exit_party_screen():
-	$ScreenTransition/AnimationPlayer.play("FadeToBlack")
-	transition_type = TransitionType.MENU_ONLY
-
-
-func transition_to_scene(new_scene: String, spawn_location, spawn_direction):
-	next_scene = new_scene
-	player_location = spawn_location
-	player_direction = spawn_direction
-	transition_type = TransitionType.NEW_SCENE
-	$ScreenTransition/AnimationPlayer.play("FadeToBlack")
-	
-func finished_fading():
-	match transition_type:
-		TransitionType.NEW_SCENE:
-			$CurrentScene.get_child(0).queue_free()
-			$CurrentScene.add_child(load(next_scene).instance())
-			
-			var player = Utils.get_player()
-			player.set_spawn(player_location, player_direction)
-		TransitionType.PARTY_SCREEN:
-			$Menu.load_party_screen()
-		TransitionType.MENU_ONLY:
-			$Menu.unload_party_screen()
-	
-	$ScreenTransition/AnimationPlayer.play("FadeToNormal")
+func switch_scene(path: String):
+	# Transición instantánea para UI, sin animación.
+	if path != "":
+		get_tree().change_scene(path)

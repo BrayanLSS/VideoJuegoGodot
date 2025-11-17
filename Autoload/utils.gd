@@ -1,17 +1,20 @@
 extends Node
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+# Datos del personaje
+var personaje_elegido = ""
+
+# Datos para transiciones de escena
+var next_scene_spawn_position: Vector2 = Vector2.ZERO
+var next_scene_spawn_direction: Vector2 = Vector2.ZERO
+var transitioning = false # Para saber si venimos de una transición
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 func get_player():
-	return get_node("/root/SceneManager/CurrentScene").get_children().back().find_node("Player")
-
+	return get_tree().get_root().find_node("Player", true, false)
+	
 func get_scene_manager():
-	return get_node("/root/SceneManager")
+	return get_tree().get_root().find_node("SceneManager", true, false)
