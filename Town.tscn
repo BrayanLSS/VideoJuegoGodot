@@ -111,7 +111,7 @@ position = Vector2( -20.3341, -357.616 )
 [node name="YSort" type="YSort" parent="."]
 
 [node name="Player" parent="YSort" instance=ExtResource( 5 )]
-position = Vector2( -366.776, 254.765 )
+position = Vector2( -219.488, 238.984 )
 
 [node name="Trees" type="YSort" parent="YSort"]
 editor/display_folded = true

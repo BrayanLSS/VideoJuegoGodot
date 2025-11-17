@@ -8,6 +8,7 @@ var personaje_elegido = ""
 var next_scene_spawn_position: Vector2 = Vector2.ZERO
 var next_scene_spawn_direction: Vector2 = Vector2.ZERO
 var transitioning = false # Para saber si venimos de una transición
+var coming_from_door = false
 
 
 func _ready():
