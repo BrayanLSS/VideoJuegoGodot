@@ -1,10 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://SceneManager.gd" type="Script" id=1]
-[ext_resource path="res://Town.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Player/Male_Spritesheet.png" type="Texture" id=3]
-[ext_resource path="res://Menu.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Menu_pause.gd" type="Script" id=5]
+[ext_resource path="res://Menu_pause.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeToBlack"
@@ -31,7 +28,7 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "finished_fading"
+"method": "_on_fade_out_finished"
 } ]
 }
 
@@ -77,16 +74,7 @@ corner_radius_bottom_right = 6
 [node name="SceneManager" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="CurrentScene" type="Node2D" parent="."]
 
-[node name="Town" parent="CurrentScene" instance=ExtResource( 2 )]
-position = Vector2( -17, 23 )
-
-[node name="MaleSpritesheet" type="Sprite" parent="CurrentScene/Town"]
-position = Vector2( 380, 645 )
-texture = ExtResource( 3 )
-
-[node name="Menu" parent="." instance=ExtResource( 4 )]
 
 [node name="ScreenTransition" type="CanvasLayer" parent="."]
 
@@ -105,16 +93,16 @@ anims/FadeToNormal = SubResource( 2 )
 
 [node name="Menu_pause" type="CanvasLayer" parent="."]
 pause_mode = 2
-script = ExtResource( 5 )
+script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="Menu_pause"]
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -121.0
-margin_top = -67.0
-margin_right = -121.0
-margin_bottom = -67.0
+margin_left = -1.45007
+margin_top = -3.70886
+margin_right = -1.45007
+margin_bottom = -3.70886
 custom_styles/panel = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu_pause/Panel"]

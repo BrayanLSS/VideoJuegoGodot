@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MenuPrincipal.gd" type="Script" id=1]
+
+[node name="MenuPrincipal" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 35.2086
+margin_top = 27.7051
+margin_right = 35.2086
+margin_bottom = 27.7051
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 63.0
+margin_top = 56.0
+margin_right = 176.0
+margin_bottom = 104.0
+custom_constants/separation = 8
+
+[node name="IniciarAventura" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_right = 113.0
+margin_bottom = 20.0
+text = "Iniciar Aventura"
+
+[node name="Salir" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 113.0
+margin_bottom = 48.0
+text = "Salir"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/IniciarAventura" to="." method="_on_IniciarAventura_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Salir" to="." method="_on_Salir_pressed"]
