@@ -30,5 +30,9 @@ func _on_BotonConfirmar_pressed():
 	
 	print("Confirmado: ", Utils.personaje_elegido, ". Cargando juego...")
 	
+	# Indicar que estamos en una transición para que la siguiente escena lo sepa
+	Utils.transitioning = true
+	Utils.coming_from_door = false
+	
 	# Cambiar a la escena del juego. Usamos Town.tscn como el mapa principal por ahora.
 	SceneManager.transition_to_scene("res://Town.tscn")

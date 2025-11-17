@@ -44,6 +44,10 @@ func _ready():
 	anim_tree.set("parameters/Walk/blend_position", input_direction)
 	anim_tree.set("parameters/Turn/blend_position", input_direction)
 
+	if Utils.transitioning:
+		Utils.transitioning = false
+		play_exit_animation()
+
 func set_spawn(location: Vector2, direction: Vector2):
 	anim_tree.set("parameters/Idle/blend_position", direction)
 	anim_tree.set("parameters/Walk/blend_position", direction)
@@ -66,22 +70,24 @@ func _physics_process(delta):
 		is_moving = false
 
 func process_player_movement_input():
-	if input_direction.y == 0:
-		input_direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
-	if input_direction.x == 0:
-		input_direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	var new_input_direction = Vector2.ZERO
+	new_input_direction.x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	if new_input_direction.x == 0:
+		new_input_direction.y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+
+	input_direction = new_input_direction
 
 	if input_direction != Vector2.ZERO:
 		anim_tree.set("parameters/Idle/blend_position", input_direction)
 		anim_tree.set("parameters/Walk/blend_position", input_direction)
 		anim_tree.set("parameters/Turn/blend_position", input_direction)
 
-		if need_to_turn():
-			player_state = PlayerState.TURNING
-			anim_state.travel("Turn")
-		else:
-			initial_position = position
-			is_moving = true
+		#if need_to_turn():
+		#	player_state = PlayerState.TURNING
+		#	anim_state.travel("Turn")
+		#else:
+		initial_position = position
+		is_moving = true
 	else:
 		anim_state.travel("Idle")
 
@@ -180,6 +186,7 @@ func enter_door_animation(door):
 	Utils.next_scene_spawn_position = door.spawn_location
 	Utils.next_scene_spawn_direction = door.spawn_direction
 	Utils.transitioning = true
+	Utils.coming_from_door = true
 	
 	# Iniciar la transición de escena
 	var scene_manager = Utils.get_scene_manager()
@@ -190,8 +197,19 @@ func play_exit_animation():
 	var scene_manager = Utils.get_scene_manager()
 	
 	# Posicionar al jugador en el punto de spawn
-	position = Utils.next_scene_spawn_position
-	input_direction = Utils.next_scene_spawn_direction
+	if Utils.coming_from_door:
+		position = Utils.next_scene_spawn_position
+		input_direction = Utils.next_scene_spawn_direction
+
+		if input_direction.x < 0:
+			facing_direction = FacingDirection.LEFT
+		elif input_direction.x > 0:
+			facing_direction = FacingDirection.RIGHT
+		elif input_direction.y < 0:
+			facing_direction = FacingDirection.UP
+		elif input_direction.y > 0:
+			facing_direction = FacingDirection.DOWN
+		
 	anim_tree.set("parameters/Idle/blend_position", input_direction)
 	anim_tree.set("parameters/Walk/blend_position", input_direction)
 	anim_tree.set("parameters/Turn/blend_position", input_direction)
@@ -200,19 +218,12 @@ func play_exit_animation():
 	$Sprite.visible = true
 	
 	# Iniciar FadeIn (de negro a transparente)
-	scene_manager.animation_player.play("FadeIn")
+	scene_manager.animation_player.play("FadeToNormal")
 	
-	# Esperar un momento antes de que el jugador salga
-	yield(get_tree().create_timer(0.3), "timeout")
-	
-	# Dar un paso hacia adelante para salir de la puerta
-	anim_state.travel("Walk")
-	tween.remove_all()
-	var target_pos = position + input_direction * TILE_SIZE
-	tween.interpolate_property(self, "position", position, target_pos, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
-	
-	yield(get_tree().create_timer(0.3), "timeout")
-	
+	# After fade-in, the player should be able to move.
+    # The "FadeToNormal" animation is 1 second long.
+	yield(get_tree().create_timer(1.0), "timeout")
+
 	anim_state.travel("Idle")
 	stop_input = false
+	input_direction = Vector2.ZERO
