@@ -1,8 +1,8 @@
 [gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://Players/Dulce.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/player_shadow.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Player/Edgar_Spritesheet.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/Dulce_Spritesheet.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -451,6 +451,7 @@ start_node = "Idle"
 [sub_resource type="AnimationNodeStateMachinePlayback" id=37]
 
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 16
 collision_mask = 14
 script = ExtResource( 1 )
 
@@ -495,10 +496,6 @@ parameters/playback = SubResource( 37 )
 parameters/Idle/blend_position = Vector2( 0, 0 )
 parameters/Turn/blend_position = Vector2( 0, 0 )
 parameters/Walk/blend_position = Vector2( 0, 0 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( -8, -16 )
-current = true
 
 [node name="BlockingRayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 0, -8 )
