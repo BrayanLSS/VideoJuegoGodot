@@ -17,3 +17,4 @@ offset = Vector2( 0, -16 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 16, 16 )
 shape = SubResource( 1 )
+

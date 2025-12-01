@@ -10,9 +10,13 @@ var player_inside: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	yield(get_tree(), "idle_frame") # Espera un fotograma para que el PlayerLoader pueda instanciar al jugador
 	var player = Utils.get_player()
-	player.connect("player_moving_signal", self, "player_exiting_grass")
-	player.connect("player_stopped_signal", self, "player_in_grass")
+	if player:
+		player.connect("player_moving_signal", self, "player_exiting_grass")
+		player.connect("player_stopped_signal", self, "player_in_grass")
+	else:
+		print("Error en TallGrass.gd: No se pudo encontrar el nodo del jugador.")
 
 func player_exiting_grass():
 	player_inside = false

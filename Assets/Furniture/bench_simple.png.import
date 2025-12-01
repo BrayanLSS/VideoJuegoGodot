@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Imagen pegada.png-e47c87d4108a84fb374eec6a86942a17.stex"
+path="res://.import/bench_simple.png-87eca6fac6502728c557ab3bb62116f6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Imagen pegada.png"
-dest_files=[ "res://.import/Imagen pegada.png-e47c87d4108a84fb374eec6a86942a17.stex" ]
+source_file="res://Assets/Furniture/bench_simple.png"
+dest_files=[ "res://.import/bench_simple.png-87eca6fac6502728c557ab3bb62116f6.stex" ]
 
 [params]
 

@@ -3,6 +3,7 @@ extends Node
 
 # Datos del personaje
 var personaje_elegido = ""
+var player_node = null # Guardará una referencia directa al nodo del jugador
 
 # Datos para transiciones de escena
 var next_scene_spawn_position: Vector2 = Vector2.ZERO
@@ -15,7 +16,7 @@ func _ready():
 	pass # Replace with function body.
 
 func get_player():
-	return get_tree().get_root().find_node("Player", true, false)
+	return player_node
 	
 func get_scene_manager():
 	return get_tree().get_root().find_node("SceneManager", true, false)
