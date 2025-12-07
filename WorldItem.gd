@@ -1,7 +1,8 @@
+tool
 extends Node2D
 
-@export var item: Item
-@onready var sprite = $Sprite2D
+export(Resource) var item
+onready var sprite = $Sprite
 
 func _ready():
 	if item:

@@ -28,6 +28,7 @@ func _ready():
 		var player_instance = player_scene.instance()
 		player_instance.name = "Player"
 		Utils.player_node = player_instance
+		print("DEBUG: Utils.player_node set to: ", Utils.player_node)
 		
 		var spawn_pos = player_instance.global_position
 		if Utils.transitioning and Utils.coming_from_door:

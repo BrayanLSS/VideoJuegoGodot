@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="InventorySlotData" load_steps=3 format=3 uid="uid://dplvgy6n7vbs"]
+[gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource type="Script" path="res://InventorySlotData.gd" id="1_slot_data"]
-[ext_resource type="Resource" uid="uid://bwo2o7h2hgcde" path="res://Items/RedFlower.tres" id="2_item"]
+[ext_resource path="res://InventorySlotData.gd" type="Script" id=1]
+[ext_resource path="res://Items/RedFlower.tres" type="Resource" id=2]
 
 [resource]
-script = ExtResource("1_slot_data")
-item = ExtResource("2_item")
+script = ExtResource( 1 )
+item = ExtResource( 2 )
 quantity = 1

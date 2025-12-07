@@ -2,7 +2,7 @@ extends Resource
 
 class_name InventoryResource
 
-@export var items: Array[InventorySlotData]
+export var items = []
 
 func add_item(item: Item, quantity: int):
 	for slot_data in items:

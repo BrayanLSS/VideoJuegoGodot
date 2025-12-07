@@ -1,7 +1,7 @@
 extends Panel
 
-@onready var texture_rect = $TextureRect
-@onready var label = $Label
+onready var texture_rect = $TextureRect
+onready var label = $Label
 
 func set_item(item_texture: Texture, quantity: int):
 	texture_rect.texture = item_texture

@@ -1,7 +1,7 @@
 extends Control
 
-@export var inventory_data: InventoryResource
-@onready var grid_container = $NinePatchRect/GridContainer
+export(Resource) var inventory_data
+onready var grid_container = $NinePatchRect/GridContainer
 
 func _ready():
 	hide()
