@@ -244,7 +244,7 @@ position = Vector2( 321.954, -249.122 )
 [node name="civic" parent="." instance=ExtResource( 11 )]
 position = Vector2( -173.521, 442.128 )
 
-[node name="Van" parent="." instance=ExtResource( 12 )]
+[node name="Van" parent="." instance=ExtResource( 11 )]
 position = Vector2( -168.98, 354.453 )
 
 [node name="UI" type="CanvasLayer" parent="."]
