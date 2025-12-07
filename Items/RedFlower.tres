@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bwo2o7h2hgcde"]
+
+[ext_resource type="Script" path="res://Item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://c6y8j6j6j3v6w" path="res://Assets/Flowers/red_flower.png" id="2_texture"]
+
+[resource]
+script = ExtResource("1_item")
+name = "Red Flower"
+texture = ExtResource("2_texture")
+stackable = true
