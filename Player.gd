@@ -195,7 +195,7 @@ func enter_door_animation(door):
 
 var inventory = preload("res://PlayerInventory.tres")
 
-onready var inventory_ui = get_node("/root/Town/UI/Inventory")
+onready var inventory_ui = get_tree().get_first_node_in_group("inventory_ui")
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_inventory"):
