@@ -193,6 +193,15 @@ func enter_door_animation(door):
 	scene_manager.transition_to_scene(door.next_scene_path)
 
 
+var inventory = preload("res://PlayerInventory.tres")
+
+onready var inventory_ui = get_tree().get_nodes_in_group("inventory_ui")[0]
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_inventory"):
+		inventory_ui.toggle()
+
+
 func play_exit_animation():
 	var scene_manager = Utils.get_scene_manager()
 	
@@ -221,7 +230,7 @@ func play_exit_animation():
 	scene_manager.animation_player.play("FadeToNormal")
 	
 	# After fade-in, the player should be able to move.
-    # The "FadeToNormal" animation is 1 second long.
+	# The "FadeToNormal" animation is 1 second long.
 	yield(get_tree().create_timer(1.0), "timeout")
 
 	anim_state.travel("Idle")

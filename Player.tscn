@@ -450,7 +450,9 @@ start_node = "Idle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=37]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 collision_mask = 14
 script = ExtResource( 1 )
 
